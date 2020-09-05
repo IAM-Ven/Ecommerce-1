@@ -8,7 +8,7 @@ import java.util.UUID;
 public class KeyGenerator {
 
 	public static UUID generateType1UUID() {
-	   long most64SigBits = get64MostSignificantBitsForVersion1();
+	    long most64SigBits = get64MostSignificantBitsForVersion1();
 	    long least64SigBits = get64LeastSignificantBitsForVersion1();
 	    UUID uuid = new UUID(most64SigBits, least64SigBits);
 	    System.out.println(uuid);

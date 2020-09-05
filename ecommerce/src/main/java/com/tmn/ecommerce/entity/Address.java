@@ -75,4 +75,10 @@ public class Address {
 		this.state = state;
 	}
 
+	@Override
+	public String toString() {
+		return "Address [no=" + no + ", room_no=" + room_no + ", floor=" + floor + ", street=" + street + ", quarter="
+				+ quarter + ", city=" + city + ", state=" + state + "]";
+	}
+
 }

@@ -2,6 +2,7 @@ package com.tmn.ecommerce.entity;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Customer implements Serializable {
@@ -22,7 +25,7 @@ public class Customer implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private String uuid;
+	private UUID uuid;
 	@Column(nullable = false)
 	private String facebook_id;
 	@Column(nullable = false)
@@ -39,8 +42,9 @@ public class Customer implements Serializable {
 	private String email;
 	@Column(nullable = false)
 	@Size(max = 20)
-	private int phone_no;
+	private String phone_no;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "customers")
 	private Set<Cart> carts;
 
@@ -52,11 +56,11 @@ public class Customer implements Serializable {
 		this.id = id;
 	}
 
-	public String getUuid() {
+	public UUID getUuid() {
 		return uuid;
 	}
 
-	public void setUuid(String uuid) {
+	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
 	}
 
@@ -100,11 +104,11 @@ public class Customer implements Serializable {
 		this.email = email;
 	}
 
-	public int getPhone_no() {
+	public String getPhone_no() {
 		return phone_no;
 	}
 
-	public void setPhone_no(int phone_no) {
+	public void setPhone_no(String phone_no) {
 		this.phone_no = phone_no;
 	}
 

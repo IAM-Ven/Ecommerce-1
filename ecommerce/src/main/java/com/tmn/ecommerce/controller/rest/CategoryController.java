@@ -2,6 +2,7 @@ package com.tmn.ecommerce.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,73 +26,72 @@ public class CategoryController {
 	@Autowired
 	CategoryService categoryService;
 	
-	@GetMapping(produces = "application/json")
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CategoryResponse> getAllCategories(){
 		CategoryResponse resp = new CategoryResponse();
 		try {
-			resp.setStatus("200");
+			resp.setStatus(HttpStatus.OK.toString());
 			resp.setMessage("Category List");
 			resp.setOblist(categoryService.getAllCategories());
 		} catch (Exception e) {
-			resp.setStatus("500");
+			resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
 			resp.setMessage(e.getMessage());
 		}	
 		return new ResponseEntity<CategoryResponse>(resp,HttpStatus.OK);
 	}
 	
-	@PostMapping(produces = "application/json")
+	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CategoryResponse> createCategory(@RequestBody Category cat) {
 		CategoryResponse resp = new CategoryResponse();
 		try {
 			if (categoryService.existsByName(cat.getName())) {
-				resp.setStatus("400");
+				resp.setStatus(HttpStatus.BAD_REQUEST.toString());
 				resp.setMessage("Category Already Exists!");
 			} else {
 				this.categoryService.createCategory(cat);
-				resp.setStatus("200");
+				resp.setStatus(HttpStatus.OK.toString());
 				resp.setMessage("Category Saved Successfully!");
 			}
 			resp.setOblist(categoryService.getAllCategories());
 		} catch (Exception e) {
-			System.out.println(e);
-			resp.setStatus("500");
+			resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
 			resp.setMessage(e.getMessage());
 		}	
 		return new ResponseEntity<CategoryResponse>(resp,HttpStatus.OK);
 	}
 	
-	@PutMapping(path = "/{id}",produces = "application/json")
+	@PutMapping(path = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CategoryResponse> updateCategory(@RequestBody Category cat) {
 		CategoryResponse resp = new CategoryResponse();
 		try {
 			if (categoryService.existsByName(cat.getName())) {
-				resp.setStatus("400");
+				resp.setStatus(HttpStatus.BAD_REQUEST.toString());
 				resp.setMessage("Category Already Exists!");
 			} else {
 				this.categoryService.createCategory(cat);
-				resp.setStatus("200");
+				resp.setStatus(HttpStatus.OK.toString());
 				resp.setMessage("Category Updated Successfully!");
 			}
 			resp.setOblist(categoryService.getAllCategories());
 		} catch (Exception e) {
-			resp.setStatus("500");
+			resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
 			resp.setMessage(e.getMessage());
 		}
 		return new ResponseEntity<CategoryResponse>(resp,HttpStatus.OK);
 	}
 	
-	@DeleteMapping(path="/{id}")
+	@DeleteMapping(path="/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<CategoryResponse> deleteCategory(@PathVariable("id") Long id) {
 		CategoryResponse resp = new CategoryResponse();
         try {
         	this.categoryService.deleteCategoryById(id);
-			resp.setStatus("200");
+			resp.setStatus(HttpStatus.OK.toString());
 			resp.setMessage("Category Deleted Successfully");
 			resp.setOblist(categoryService.getAllCategories());
 		} catch (Exception e) {
-			resp.setStatus("500");
+			resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
 			resp.setMessage("This category has items");
-		}
+		} 
         return new ResponseEntity<CategoryResponse>(resp,HttpStatus.OK);
 	}
 	

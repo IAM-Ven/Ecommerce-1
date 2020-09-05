@@ -3,6 +3,7 @@ package com.tmn.ecommerce.entity;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,9 +23,10 @@ public class Category implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	private Long id;
 	@Size(max = 20)
-	String name;
+	@Column(nullable = false)
+	private String name;
 
 	@JsonIgnore
 	@OneToMany(mappedBy="category")
